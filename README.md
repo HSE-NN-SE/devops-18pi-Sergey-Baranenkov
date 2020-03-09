@@ -22,15 +22,17 @@ OPTIONAL:
 
 Установка:
 
-1. go get -u github.com/HSE-NN-SE/devops-18pi-Sergey-Baranenkov
+1. ```go get -u github.com/HSE-NN-SE/devops-18pi-Sergey-Baranenkov```
 
 2. Запустите redis-server и postgres на redis:6379 postgres:5432 соответственно
 
-3. go run .
+3. Введите команду ```go run .```
+
 
 Либо с помощью docker:
 
-- Выполните команду docker-compose up в папке с репозиторием (нужен установленный докер)
+- Выполните команду ```docker-compose up``` в папке с репозиторием (нужен установленный докер)
 
+Приложение будет доступно по адресу localhost:8090
 
 Бараненков Сергей Сергеевич ВШЭ НН 18ПИ-2
