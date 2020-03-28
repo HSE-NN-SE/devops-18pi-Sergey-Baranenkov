@@ -18,7 +18,7 @@ class App extends React.Component {
                 name="auth_switcher"
                 onChange={this.changeFunc}
               />
-              <div>Sign Up</div>
+              <div>Зарегистрироваться</div>
             </label>
             <label>
               <input
@@ -26,7 +26,7 @@ class App extends React.Component {
                 name="auth_switcher"
                 onChange={this.changeFunc}
               />
-              <div>Log In</div>
+              <div>Войти</div>
             </label>
           </div>
           {this.state.signIn ? <Login /> : <Registration />}
@@ -43,31 +43,36 @@ class Registration extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="auth_header">Sign Up For Free</h1>
+        <h1 className="auth_header">Зарегистрируйтесь уже сейчас!</h1>
         <form className="auth_form" method="post" action="/registration">
           <input
             type="text"
             name="first_name"
-            placeholder="First Name"
+            placeholder="Имя"
             autoComplete="off"
           />
           <input
             type="text"
             name="last_name"
-            placeholder="Last Name"
+            placeholder="Фамилия"
             autoComplete="off"
           />
           <input
             type="text"
             name="email"
-            placeholder="Email Address"
+            placeholder="Email адрес"
             autoComplete="off"
-            className="full_width"
           />
+
+          <select name="sex" className={"auth__sex_switcher"}>
+            <option>Пол: Мужской</option>
+            <option>Пол: Женский</option>
+          </select>
+
           <input
             type="text"
             name="password"
-            placeholder="Password"
+            placeholder="Пароль"
             autoComplete="off"
             className="full_width"
           />
@@ -75,7 +80,7 @@ class Registration extends React.Component {
             type="submit"
             className="full_width"
             id="signup_submit_button"
-            value="GET STARTED"
+            value="ЗАРЕГИСТРИРОВАТЬСЯ"
           />
         </form>
       </div>
@@ -89,19 +94,19 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="auth_header">Welcome Back!</h1>
+        <h1 className="auth_header">Приятно видеть вас снова!</h1>
         <form className="auth_form" method="post" action="/login">
           <input
             type="text"
             name="email"
-            placeholder="Email Address"
+            placeholder="Email адрес"
             autoComplete="off"
             className="full_width"
           />
           <input
             type="text"
             name="password"
-            placeholder="Password"
+            placeholder="Пароль"
             autoComplete="off"
             className="full_width"
           />
@@ -109,7 +114,7 @@ class Login extends React.Component {
             type="submit"
             className="full_width"
             id="signup_submit_button"
-            value="LOG IN"
+            value="ВОЙТИ"
           />
         </form>
       </div>

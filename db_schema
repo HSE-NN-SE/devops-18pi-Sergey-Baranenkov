@@ -1,0 +1,119 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+create extension ltree;
+
+create table if not exists persons (
+    /*secret_info*/
+    user_id bigserial primary key,
+	email text not null,
+	token bytea not null,
+	first_name text not null check ( length(first_name) > 0 ),
+	last_name text not null check ( length(last_name) > 0),
+    sex char(1) not null check ( sex in ('M', 'F')),
+    /*basic_info*/
+    avatar_ref text default 'hash_path/def_avatar.jpg', /*исправить путь*/
+	tel decimal(20),
+	city text default '',
+	birthday date, /*обработать*/
+	status int2 check (0 <= status and status <= 5) default 0, /*0-не указано 1 1-женат 2-не женат 3-влюблен 4-все сложно 5-в акт.поиске */
+
+    /*hobbies*/
+	hobby text default '',
+	fav_music text default '',
+	fav_films text default '',
+	fav_books text default '',
+	fav_games text default '',
+	other_interests text default '',
+
+	/*privacy*/
+	who_can_message text not null default 'all' check(who_can_message in ('all','fo')), /*fo - friends only*/
+	who_can_see_info text not null default 'all' check(who_can_see_info in ('all','fo')),
+
+    /*edu_and_emp*/
+    edu_and_emp_info jsonb
+);
+
+create table posts(
+    obj_id bigserial primary key,
+    auth_id bigserial references persons (user_id) on delete cascade,
+    text text not null,
+
+    num_likes integer default 0 not null,
+    num_shares integer default 0 not null,
+
+    ref_link text default ''
+);
+
+create table comments(
+    obj_id bigserial primary key,
+    auth_id bigserial references persons (user_id) on delete cascade,
+    text text not null,
+
+    num_likes integer not null default 0,
+    path ltree not null /*сюда записывается rel.path(.comment_id)*/
+);
+
+create index user_id_idx on persons (user_id);
+create index auth_id_idx on posts (auth_id);
+create index tree_path_idx on comments using gist (path);
+
+CREATE FUNCTION delete_post_or_comment_process() RETURNS trigger AS $delete_post_or_comment_process$
+    BEGIN
+       	delete from comments where path <@ text2ltree(old.obj_id::text);
+       	return new;
+    END;
+
+$delete_post_or_comment_process$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_post_trigger
+	AFTER DELETE ON posts
+FOR EACH ROW EXECUTE PROCEDURE delete_post_or_comment_process ();
+
+CREATE TRIGGER delete_comment_trigger
+	AFTER DELETE ON comments
+FOR EACH ROW EXECUTE PROCEDURE delete_post_or_comment_process ();
+
+CREATE FUNCTION insert_comment_process() RETURNS trigger AS $insert_comment_process$
+    BEGIN
+       	new.path = new.path || new.obj_id::text;
+       	Return new;
+    END;
+
+$insert_comment_process$ LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_comment_trigger
+	BEFORE INSERT ON comments
+FOR EACH ROW EXECUTE PROCEDURE insert_comment_process ();
+
+
+/*Регистрируемся*/
+insert into persons (email, token, first_name, last_name, sex) values ('baranenkovs@mail.ru', E'\a','Sergey','Baranenkov', 'M');
+
+
+/*добавляем пост*/
+
+insert into posts (auth_id, text) values (1, 'Всем привет!');
+
+insert into comments (auth_id, text, path) values (1,'И тебе привет', '1');
+insert into comments (auth_id, text, path) values (1,'И тебе привет', '1');
+insert into comments (auth_id, text, path) values (1,'И тебе привет', '1');
+insert into comments (auth_id, text, path) values (1,'И тебе привет', '1');
+insert into comments (auth_id, text, path) values (1,'И тебе привет', '1');
+
+/*delete from posts where obj_id = 1;*/
+
+select * from comments;
+
+
+/*
+insert into secret_info(email,token) values('baranenkovs@mail.ru',E'\a8');
+insert into secret_info(email,token) values('shailum@mail.ru',E'\a9');
+
+UPDATE basic_info
+	SET first_name = 'sergey', last_name = 'baranenkov'
+WHERE user_id = 1;
+
+update edu_and_emp
+	set places_info = '{"sql":"postgres", "database":"plsql"}'::jsonb
+WHERE user_id = 1;
+*/

@@ -6,7 +6,7 @@
 html {
   margin: 0;
   padding: 0;
-  background-image: url("../images/auth_bg.png");
+  background-image: url("../media/auth_bg.png");
   animation: animated_background 5s linear infinite; }
 
 .containter {
@@ -71,4 +71,9 @@ html {
   color: white;
   font-size: 25px; }
 
-/*# sourceMappingURL=style.css.map */
+.auth__sex_switcher{
+  background-color: #24333c;
+  outline: none;
+  color: #66777A;
+  border: 1px solid #a0b3b0;;
+}

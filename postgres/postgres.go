@@ -9,13 +9,24 @@ type RegistrationConn struct {
 	Conn *pgx.Conn
 }
 
-func (rc *RegistrationConn) CreateRegTable() (err error) {
-	_, err = rc.Conn.Exec(context.Background(), "create table if not exists registration (user_id serial primary key,"+
-		"email text not null,"+
-		"first_name text not null,"+
-		"last_name text not null,"+
-		"token bytea not null)")
-	return err
+func (rc *RegistrationConn) InitDatabasesIfNotExist() (err error) {
+	if _, err = rc.Conn.Exec(context.Background(), "create extension if not exists ltree;"); err!=nil{
+		return err
+	}
+
+	if _, err = rc.Conn.Exec(context.Background(), UserTable); err!=nil{
+		return err
+	}
+
+	if _, err = rc.Conn.Exec(context.Background(), PostsTable); err!=nil{
+		return err
+	}
+
+	if _, err = rc.Conn.Exec(context.Background(), CommentsTable); err!=nil{
+		return err
+	}
+
+	return nil
 }
 
 func (rc *RegistrationConn) CreateConnection(path string) (err error) {
