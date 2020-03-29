@@ -16,7 +16,6 @@ func authPageHandler(ctx *fasthttp.RequestCtx){
 	ctx.SendFile("frontend/html/auth.html")
 }
 
-
 func AuthMiddleware(next fasthttp.RequestHandler)fasthttp.RequestHandler{
 	return func(ctx *fasthttp.RequestCtx){
 		redisAccessToken, err := Redis.Get(functools.ByteSliceToString(ctx.Request.Header.Cookie("userId"))).Result()

@@ -9,6 +9,6 @@ require (
 	github.com/jackc/pgtype v1.1.0
 	github.com/jackc/pgx/v4 v4.3.0
 	github.com/lab259/cors v0.2.0
-	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/valyala/fasthttp v1.8.0
 )
