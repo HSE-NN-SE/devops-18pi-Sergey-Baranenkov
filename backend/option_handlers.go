@@ -43,22 +43,27 @@ func UpdateProfileAvatar(ctx *fasthttp.RequestCtx){
 		return
 	}
 
-	if err := makeAvatarPath(50,50, f); err!=nil{
+	path50, err := makeAvatarPath(50,50, f)
+	if err != nil{
 		ctx.Error(err.Error(), fasthttp.StatusInternalServerError)
-		return
 	}
 
-	if err := makeAvatarPath(150,150, f); err!=nil{
+	path150, err := makeAvatarPath(150,150, f)
+	if err != nil{
 		ctx.Error(err.Error(), fasthttp.StatusInternalServerError)
-		return
 	}
-
+	/*
+	if _, err := Postgres.Conn.Exec(context.Background(), "erererer"); err!=nil{
+		log.Fatal("Cannot update avatar of user")
+	}
+	*/
+	fmt.Println(ctx.UserValue("a"),path50,path150) //TODO
 }
 
-func makeAvatarPath(width uint, height uint, file *multipart.FileHeader) error {
+func makeAvatarPath(width uint, height uint, file *multipart.FileHeader) (string, error) {
 	path, err:= functools.StringToPath(functools.RandomStringGenerator(16),2)
 	if err != nil{
-		return err
+		return "", err
 	}
 
 	sb:=strings.Builder{}
@@ -70,7 +75,7 @@ func makeAvatarPath(width uint, height uint, file *multipart.FileHeader) error {
 	sb.WriteString(path)
 
 	if err:= os.MkdirAll(sb.String(),0777); err!=nil{
-		return err
+		return "", err
 	}
 
 	sb.WriteString(strconv.FormatInt(time.Now().UnixNano(),10))
@@ -78,7 +83,7 @@ func makeAvatarPath(width uint, height uint, file *multipart.FileHeader) error {
 
 	ff, err := file.Open()
 	if err!=nil{
-		return err
+		return "", err
 	}
 
 	decodedJpeg, err := jpeg.Decode(ff)
@@ -88,17 +93,15 @@ func makeAvatarPath(width uint, height uint, file *multipart.FileHeader) error {
 	w, err := os.Create(sb.String())
 
 	if err!=nil{
-		return err
+		return "", err
 	}
 
 	if err := jpeg.Encode(w, avatar100xPic,nil);err!=nil{
-		return err
+		return "", err
 	}
 
-	return nil
+	return sb.String(), nil
 }
-
-
 
 func UpdateProfileBg(ctx *fasthttp.RequestCtx){
 	f, err :=ctx.FormFile("photo")
@@ -140,5 +143,24 @@ func PostTestHandler(ctx *fasthttp.RequestCtx){
 							  "tel":88005553535, 
  							  "country": "Россия",
 							  "city":"Нижний Новгород"
+							}`))
+}
+
+func EduHobbiesHandler(ctx *fasthttp.RequestCtx){
+	ctx.Response.Header.Set("Content-Type", "application/json")
+	_, _ = ctx.Write([]byte(`{"hobby":"Хобби",
+							  "music": "Паша техник",
+						      "films":"Интерстеллар", 
+							  "books":"Преступление и наказание", 
+ 							  "games": "TF",
+							  "others":""
+							}`))
+}
+
+func PrivacyHandler(ctx *fasthttp.RequestCtx){
+	ctx.Response.Header.Set("Content-Type", "application/json")
+	_, _ = ctx.Write([]byte(`{"can_m":"Все",
+							  "has_access": "Только друзья",
+						      "sound_n": false,
 							}`))
 }

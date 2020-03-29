@@ -37,7 +37,3 @@ func (rc *RegistrationConn) CreateConnection(path string) (err error) {
 	rc.Conn = Conn
 	return nil
 }
-
-func (rc *RegistrationConn) Close()(err error){
-	return rc.Conn.Close(nil)
-}

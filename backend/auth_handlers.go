@@ -16,15 +16,19 @@ func authPageHandler(ctx *fasthttp.RequestCtx){
 	ctx.SendFile("frontend/html/auth.html")
 }
 
-func AuthMiddleware(next fasthttp.RequestHandler)fasthttp.RequestHandler{
+func AuthMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler{
 	return func(ctx *fasthttp.RequestCtx){
-		redisAccessToken, err := Redis.Get(functools.ByteSliceToString(ctx.Request.Header.Cookie("userId"))).Result()
+		/*redisAccessToken, err := Redis.Get(functools.ByteSliceToString(ctx.Request.Header.Cookie("userId"))).Result()
 		if err == nil && bytes.Compare(ctx.Request.Header.Cookie("accessToken"),
 			functools.StringToByteSlice(redisAccessToken)) == 0{
+			ctx.SetUserValue("a","b")
 			next(ctx)
 		}else{
 			ctx.Redirect("/auth",401)
 		}
+		 */
+		ctx.SetUserValue("a","b")
+		next(ctx)
 	}
 }
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/lab259/cors"
 	"github.com/valyala/fasthttp"
@@ -23,10 +24,12 @@ func main(){
 
 	Router.GET("/testpage", CORSHandler(testPageHandler))
 	Router.GET("/posts", CORSHandler(PostTestHandler))
+	Router.GET("/settings/edu_and_hobbies",CORSHandler(EduHobbiesHandler))
+	Router.GET("/settings/privacy",CORSHandler(PrivacyHandler))
 
-	Router.POST("/update_basic_info/text_data", CORSHandler(UpdateBasicInfoTextHandler))
-	Router.POST("/update_basic_info/profile_avatar", CORSHandler(UpdateProfileAvatar))
-	Router.POST("/update_basic_info/profile_bg", CORSHandler(UpdateProfileBg))
+	Router.POST("/settings/update_basic_info/text_data", CORSHandler(UpdateBasicInfoTextHandler))
+	Router.POST("/settings/update_basic_info/profile_avatar", CORSHandler(AuthMiddleware(UpdateProfileAvatar)))
+	Router.POST("/settings/update_basic_info/profile_bg", CORSHandler(AuthMiddleware(UpdateProfileBg)))
 
 
 	Router.NotFound = CORSHandler(testPageHandler)
@@ -37,7 +40,7 @@ func main(){
 		log.Println("error when starting server: " + err.Error())
 	}
 
-	if err := Postgres.Close(); err!=nil{
+	if err := Postgres.Conn.Close(context.Background()); err!=nil{
 		log.Println("error when closing Postgres conn: " + err.Error())
 	}
 	if err := Redis.Close(); err!=nil{
