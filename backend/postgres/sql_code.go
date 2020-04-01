@@ -7,7 +7,7 @@ var UserTable = `create table if not exists users (
 	token bytea not null,
 	first_name text not null check ( length(first_name) > 0 ),
 	last_name text not null check ( length(last_name) > 0),
-    sex char(1) not null check ( sex in ('M', 'F')),
+    sex char(1) not null check ( sex in ('М', 'Ж')),
     /*basic_info*/
     avatar_ref text default 'hash_path/def_avatar.jpg', /*исправить путь*/
     bg_ref text default 'hash_path/def_bg',

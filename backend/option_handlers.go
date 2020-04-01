@@ -135,18 +135,9 @@ func UpdateProfileBg(ctx *fasthttp.RequestCtx){
 	}
 }
 
-func PostTestHandler(ctx *fasthttp.RequestCtx){
-	ctx.Response.Header.Set("Content-Type", "application/json")
-	_, _ = ctx.Write([]byte(`{"sex":"Женский",
-							  "status": 2,
-						      "birthday":"2000-02-05", 
-							  "tel":88005553535, 
- 							  "country": "Россия",
-							  "city":"Нижний Новгород"
-							}`))
-}
 
-func EduHobbiesHandler(ctx *fasthttp.RequestCtx){
+
+func HobbiesHandler(ctx *fasthttp.RequestCtx){
 	ctx.Response.Header.Set("Content-Type", "application/json")
 	_, _ = ctx.Write([]byte(`{"hobby":"Хобби",
 							  "music": "Паша техник",
@@ -163,4 +154,12 @@ func PrivacyHandler(ctx *fasthttp.RequestCtx){
 							  "has_access": "Только друзья",
 						      "sound_n": false
 							}`))
+}
+
+func EduEmpHandler(ctx *fasthttp.RequestCtx){
+	ctx.Response.Header.Set("Content-Type", "application/json")
+	_, _ = ctx.Write([]byte(`{"data": [
+										{"title": "a", "period": "b", "description": "c"},
+										{"title": "d", "period": "e", "description": "f"}
+]}`))
 }

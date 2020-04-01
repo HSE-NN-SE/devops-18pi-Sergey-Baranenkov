@@ -14,25 +14,23 @@ func main(){
 		return
 	}
 
-	Router.GET("/auth", CORSHandler(authPageHandler))
-	Router.POST("/registration",CORSHandler(registrationHandler))
+	//Router.GET("/auth", CORSHandler(authPageHandler))
+	Router.POST("/registration",CORSHandler(RegistrationHandler))
 	Router.POST("/login",CORSHandler(loginHandler))
 
 	Router.GET("/static/*filepath", CORSHandler(fasthttp.FSHandler("./frontend",1)))
 	Router.GET("/frontend/*filepath", CORSHandler(fasthttp.FSHandler("./frontend", 1)))
 
-
-	Router.GET("/testpage", CORSHandler(testPageHandler))
 	Router.GET("/posts", CORSHandler(PostTestHandler))
-	Router.GET("/settings/edu_and_hobbies",CORSHandler(EduHobbiesHandler))
+	Router.GET("/settings/hobbies",CORSHandler(HobbiesHandler))
 	Router.GET("/settings/privacy",CORSHandler(PrivacyHandler))
+	Router.GET("/settings/edu_emp",CORSHandler(EduEmpHandler))
 
 	Router.POST("/settings/update_basic_info/text_data", CORSHandler(UpdateBasicInfoTextHandler))
 	Router.POST("/settings/update_basic_info/profile_avatar", CORSHandler(AuthMiddleware(UpdateProfileAvatar)))
 	Router.POST("/settings/update_basic_info/profile_bg", CORSHandler(AuthMiddleware(UpdateProfileBg)))
 
 
-	Router.NotFound = CORSHandler(testPageHandler)
 
 	fmt.Println("LISTENING ON PORT " + ServePort)
 
@@ -50,10 +48,6 @@ func main(){
 
 func redirectHandler(ctx *fasthttp.RequestCtx){
 	ctx.Redirect("/auth",302)
-}
-
-func testPageHandler(ctx *fasthttp.RequestCtx){
-	ctx.SendFile("frontend/build/index.html")
 }
 
 func CORSHandler (h fasthttp.RequestHandler) fasthttp.RequestHandler{

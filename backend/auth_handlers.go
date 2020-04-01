@@ -5,9 +5,10 @@ import (
 	"context"
 	"coursework/functools"
 	"crypto/sha512"
+	"encoding/json"
+	"fmt"
 	"github.com/jackc/pgx/v4"
 	"github.com/valyala/fasthttp"
-	"log"
 	"strconv"
 	"strings"
 )
@@ -35,17 +36,18 @@ func AuthMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler{
 
 type loginStruct struct{
 	Email     string `validate:"required,email"`
-	Password  string `validate:"required,min=7"`
+	Password  string `validate:"required"`
 }
 
 func loginHandler(ctx *fasthttp.RequestCtx){
-	ls:= &loginStruct{
-		Email:    functools.ByteSliceToString(ctx.FormValue("email")),
-		Password: functools.ByteSliceToString(ctx.FormValue("password")),
+	obj:= &loginStruct{}
+
+	if err := json.Unmarshal(ctx.PostBody(), obj); err != nil {
+		ctx.Error(err.Error(), fasthttp.StatusInternalServerError)
+		return
 	}
 
-
-	err:= Validator.Struct(ls)
+	err:= Validator.Struct(obj)
 
 	if err!=nil{
 		ctx.Error("not validated", 403)
@@ -57,13 +59,13 @@ func loginHandler(ctx *fasthttp.RequestCtx){
 	var firstName string
 	var lastName string
 
-	Postgres.Conn.QueryRow(context.Background(),"select user_id, first_name, last_name, token from registration where email = $1 limit 1", ls.Email).Scan(
+	Postgres.Conn.QueryRow(context.Background(),"select user_id, first_name, last_name, token from users where email = $1 limit 1", obj.Email).Scan(
 		&userId,
 		&firstName,
 		&lastName,
 		&dbToken)
 
-	if userToken:=sha512.Sum512(append(functools.StringToByteSlice(ls.Password), Salt...)); bytes.Compare(dbToken, userToken[:]) != 0{
+	if userToken:=sha512.Sum512(append(functools.StringToByteSlice(obj.Password), Salt...)); bytes.Compare(dbToken, userToken[:]) != 0{
 		ctx.Error("Incorrect email/pass combination",402)
 		return
 	}
@@ -72,33 +74,42 @@ func loginHandler(ctx *fasthttp.RequestCtx){
 
 }
 
-func registrationHandler(ctx *fasthttp.RequestCtx){
-	firstName:=ctx.FormValue("first_name")
-	lastName:=ctx.FormValue("last_name")
-	email:= ctx.FormValue("email")
-	password:= ctx.FormValue("password")
+type RegistrationStruct struct{
+	FirstName string `json:"first_name" validate:"required"`
+	LastName string `json:"last_name" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
+	Sex      string `json:"sex" validate:"sex"`
+	Password string `json:"password" validate:"required"`
+}
 
-	if len(email)==0 || len(password)==0{
-		ctx.Error("Поля не заполнены",402)
+
+func RegistrationHandler(ctx *fasthttp.RequestCtx){
+	obj := &RegistrationStruct{}
+
+	if err := json.Unmarshal(ctx.PostBody(), obj); err != nil {
+		ctx.Error(err.Error(), fasthttp.StatusInternalServerError)
+		return
 	}
 
-	if err:= Postgres.Conn.QueryRow(context.Background(),"select 1 from registration where email = $1 limit 1", email).Scan();err != pgx.ErrNoRows{
+	if err:= Postgres.Conn.QueryRow(context.Background(),"select 1 from users where email = $1 limit 1", obj.Email).Scan();err != pgx.ErrNoRows{
 		ctx.Error("User already exists",402)
+		return
 	}
 
-	token:=sha512.Sum512(append(password, Salt...))
+	token:=sha512.Sum512(append(functools.StringToByteSlice(obj.Password), Salt...))
+
 	var userId int
-	if err := Postgres.Conn.QueryRow(context.Background(), "insert into registration (first_name,last_name,email,token) values($1,$2,$3,$4) returning user_id",
-		functools.ByteSliceToString(firstName),
-		functools.ByteSliceToString(lastName),
-		functools.ByteSliceToString(email),
+	if err := Postgres.Conn.QueryRow(context.Background(), "insert into users (first_name,last_name,email,sex, token) values($1,$2,$3,$4,$5) returning user_id",
+		obj.FirstName,
+		obj.LastName,
+		obj.Email,
+		obj.Sex,
 		token[:]).Scan(&userId);
 		err!=nil{
-		log.Println(err)
-		ctx.Error("Unhandled error",404)
+		fmt.Println(err)
 	}else{
 		successfulAuth(ctx,strconv.Itoa(userId))
-		ctx.Redirect("/secretpage",200)
+		ctx.Redirect("/профиль",200)
 	}
 }
 
