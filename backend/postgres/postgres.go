@@ -10,6 +10,11 @@ type RegistrationConn struct {
 }
 
 func (rc *RegistrationConn) InitDatabasesIfNotExist() (err error) {
+
+	if _, err = rc.Conn.Exec(context.Background(), DropDB); err!=nil{
+		return err
+	}
+
 	if _, err = rc.Conn.Exec(context.Background(), "create extension if not exists ltree;"); err!=nil{
 		return err
 	}
@@ -18,14 +23,29 @@ func (rc *RegistrationConn) InitDatabasesIfNotExist() (err error) {
 		return err
 	}
 
-	if _, err = rc.Conn.Exec(context.Background(), PostsTable); err!=nil{
+	if _, err = rc.Conn.Exec(context.Background(), ObjectsTable); err!=nil{
 		return err
 	}
 
-	if _, err = rc.Conn.Exec(context.Background(), CommentsTable); err!=nil{
+	if _, err = rc.Conn.Exec(context.Background(), LikesTable); err!=nil{
 		return err
 	}
 
+	if _, err = rc.Conn.Exec(context.Background(), PostInfo); err!=nil{
+		return err
+	}
+
+	if _, err = rc.Conn.Exec(context.Background(), Triggers); err!=nil{
+		return err
+	}
+
+	if _, err = rc.Conn.Exec(context.Background(), SelectFunctions); err!=nil{
+		return err
+	}
+
+	if _, err = rc.Conn.Exec(context.Background(), InitTestSQL); err!=nil{
+		return err
+	}
 	return nil
 }
 

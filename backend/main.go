@@ -21,10 +21,13 @@ func main(){
 	Router.GET("/static/*filepath", CORSHandler(fasthttp.FSHandler("./frontend",1)))
 	Router.GET("/frontend/*filepath", CORSHandler(fasthttp.FSHandler("./frontend", 1)))
 
-	Router.GET("/posts", CORSHandler(PostTestHandler))
+	Router.GET("/posts", CORSHandler(GetPostsHandler))
 	Router.GET("/settings/hobbies",CORSHandler(HobbiesHandler))
 	Router.GET("/settings/privacy",CORSHandler(PrivacyHandler))
 	Router.GET("/settings/edu_emp",CORSHandler(EduEmpHandler))
+	Router.GET("/comments/",CORSHandler(CommentsTestHandler))
+
+	Router.POST("/like/",CORSHandler(LikeHandler))
 
 	Router.POST("/settings/update_basic_info/text_data", CORSHandler(UpdateBasicInfoTextHandler))
 	Router.POST("/settings/update_basic_info/profile_avatar", CORSHandler(AuthMiddleware(UpdateProfileAvatar)))
