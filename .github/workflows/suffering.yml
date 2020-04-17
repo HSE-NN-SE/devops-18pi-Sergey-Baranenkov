@@ -11,17 +11,6 @@ jobs:
   # This workflow contains a single job called "my_testing"
   server_launch:
     runs-on: ubuntu-latest
-    
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: me
-          POSTGRES_PASSWORD: 12345
-          POSTGRES_DB: my_coursework_db
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s
         
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
