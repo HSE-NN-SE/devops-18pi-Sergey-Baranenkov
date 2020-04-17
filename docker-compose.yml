@@ -7,8 +7,6 @@ services:
                 command: ./app
                 ports:
                         - "8090:8090"
-                environment:
-                        REGISTER_DB: $REGISTER_DB
                 depends_on:
                         - postgres
                         - redis
@@ -18,9 +16,9 @@ services:
                 volumes:
                         - "./databases/pg:/var/lib/postgresql/data"
                 environment:
-                        POSTGRES_USER: $PG_USER
-                        POSTGRES_PASSWORD: $PG_PASS
-                        POSTGRES_DB: $PG_DB
+                        POSTGRES_USER: me
+                        POSTGRES_PASSWORD: 12345
+                        POSTGRES_DB: my_coursework_db
                 expose:
                         - "5432"
         redis:

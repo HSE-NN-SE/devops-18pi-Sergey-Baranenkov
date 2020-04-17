@@ -50,9 +50,6 @@ func main(){
 	}
 }
 
-func redirectHandler(ctx *fasthttp.RequestCtx){
-	ctx.Redirect("/auth",302)
-}
 
 func CORSHandler (h fasthttp.RequestHandler) fasthttp.RequestHandler{
 	return cors.AllowAll().Handler(h)

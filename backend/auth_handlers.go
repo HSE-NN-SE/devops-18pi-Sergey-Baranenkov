@@ -70,7 +70,7 @@ func loginHandler(ctx *fasthttp.RequestCtx){
 		return
 	}
 	successfulAuth(ctx,strconv.Itoa(userId))
-	ctx.Redirect("/secretpage",200)
+	ctx.Redirect("/posts",200)
 
 }
 
@@ -85,7 +85,6 @@ type RegistrationStruct struct{
 
 func RegistrationHandler(ctx *fasthttp.RequestCtx){
 	obj := &RegistrationStruct{}
-
 	if err := json.Unmarshal(ctx.PostBody(), obj); err != nil {
 		ctx.Error(err.Error(), fasthttp.StatusInternalServerError)
 		return
