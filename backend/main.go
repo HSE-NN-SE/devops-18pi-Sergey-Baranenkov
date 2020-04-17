@@ -25,7 +25,8 @@ func main(){
 	Router.GET("/settings/hobbies",CORSHandler(HobbiesHandler))
 	Router.GET("/settings/privacy",CORSHandler(PrivacyHandler))
 	Router.GET("/settings/edu_emp",CORSHandler(EduEmpHandler))
-	Router.GET("/comments/",CORSHandler(CommentsTestHandler))
+	Router.GET("/get_comments/",CORSHandler(CommentsTestHandler))
+	Router.POST("/leave_comment/",CORSHandler(AddCommentHandler))
 
 	Router.POST("/like/",CORSHandler(LikeHandler))
 

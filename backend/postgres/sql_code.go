@@ -72,7 +72,7 @@ var Triggers = `CREATE OR REPLACE FUNCTION  insert_object_before_process() RETUR
         if new.path = '' then
             new.path = text2ltree(nextval('num_posts')::text);
             else
-                new.path = new.path || (select count(*) + 1 from objects o where o.path ~ (new.path::text || '.*{1}')::lquery)::text;
+                new.path = new.path || (select coalesce(max(right(path::text, 1)::bigint), 0) + 1 from objects o where o.path ~ (new.path::text || '.*{1}')::lquery)::text;
         end if;
        	return new;
     END;

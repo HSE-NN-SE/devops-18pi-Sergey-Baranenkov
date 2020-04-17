@@ -50,3 +50,13 @@ func LikeHandler(ctx *fasthttp.RequestCtx){
 	}
 
 }
+
+func AddCommentHandler(ctx *fasthttp.RequestCtx){
+	path  := functools.ByteSliceToString(ctx.QueryArgs().Peek("path"))
+	authId := "1"
+	message := "Hello world"
+	if _,err:= Postgres.Conn.Exec(context.Background(),"insert into objects (auth_id, text, path) values ($1, $2, $3);", authId, message, path); err != nil{
+		fmt.Println("Error:", err)
+		return
+	}
+}
