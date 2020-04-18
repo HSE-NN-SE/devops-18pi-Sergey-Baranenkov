@@ -37,11 +37,12 @@ jobs:
             docker push ${{secrets.DOCKER_USERNAME}}/go_react_socialnetwork:ver_$GITHUB_RUN_NUMBER
 
   code_style_checks:
+    name: Go Checks
     runs-on: ubuntu-latest
     steps:
-     - name: linux build
-       uses: shoukoo/golang-pipeline/go1.12/release@master
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         GOOS: linux
-         GOARCH: amd64
+    - name: go1.12 linter
+      uses: shoukoo/golang-pipeline/go1.12/linter@master
+      with:
+        GOLINT: on
+        GOLINTPATH: pkg/controller
+        MISSPELL: off
