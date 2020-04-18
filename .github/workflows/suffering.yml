@@ -18,7 +18,7 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: launch_server
-      run: docker-compose up
+      run: docker-compose up -d
       
     - name: watch running container
       run: docker ps
