@@ -58,13 +58,15 @@ func loginHandler(ctx *fasthttp.RequestCtx) {
 	var firstName string
 	var lastName string
 
-	Postgres.Conn.QueryRow(context.Background(), "select user_id, first_name, last_name, token from users where email = $1 limit 1", obj.Email).Scan(
+	Postgres.Conn.QueryRow(context.Background(),
+		"select user_id, first_name, last_name, token from users where email = $1 limit 1", obj.Email).Scan(
 		&userId,
 		&firstName,
 		&lastName,
 		&dbToken)
 
-	if userToken := sha512.Sum512(append(functools.StringToByteSlice(obj.Password), Salt...)); !bytes.Equal(dbToken, userToken[:]) {
+	if userToken := sha512.Sum512(append(functools.StringToByteSlice(obj.Password), Salt...));
+	!bytes.Equal(dbToken, userToken[:]) {
 		ctx.Error("Incorrect email/pass combination", 402)
 		return
 	}
@@ -88,7 +90,8 @@ func RegistrationHandler(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	if err := Postgres.Conn.QueryRow(context.Background(), "select 1 from users where email = $1 limit 1", obj.Email).Scan(); err != pgx.ErrNoRows {
+	if err := Postgres.Conn.QueryRow(context.Background(), "select 1 from users where email = $1 limit 1",
+		obj.Email).Scan(); err != pgx.ErrNoRows {
 		ctx.Error("User already exists", 402)
 		return
 	}
@@ -96,7 +99,8 @@ func RegistrationHandler(ctx *fasthttp.RequestCtx) {
 	token := sha512.Sum512(append(functools.StringToByteSlice(obj.Password), Salt...))
 
 	var userId int
-	if err := Postgres.Conn.QueryRow(context.Background(), "insert into users (first_name,last_name,email,sex, token) values($1,$2,$3,$4,$5) returning user_id",
+	if err := Postgres.Conn.QueryRow(context.Background(),
+		"insert into users (first_name,last_name,email,sex, token) values($1,$2,$3,$4,$5) returning user_id",
 		obj.FirstName,
 		obj.LastName,
 		obj.Email,

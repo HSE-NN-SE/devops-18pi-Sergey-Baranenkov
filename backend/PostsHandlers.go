@@ -10,7 +10,8 @@ import (
 func GetPostsHandler(ctx *fasthttp.RequestCtx) {
 	ctx.Response.Header.Set("Content-Type", "application/json")
 	var posts = make([]byte, 0, 1024)
-	if err := Postgres.Conn.QueryRow(context.Background(), "select get_posts($1,$2)", 1, 1).Scan(&posts); err != nil {
+	if err := Postgres.Conn.QueryRow(context.Background(), "select get_posts($1,$2)", 1, 1).Scan(&posts);
+	err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -23,7 +24,8 @@ func CommentsTestHandler(ctx *fasthttp.RequestCtx) {
 	fmt.Println(limit, path)
 	ctx.Response.Header.Set("Content-Type", "application/json")
 	var comments = make([]byte, 0, 1024)
-	if err := Postgres.Conn.QueryRow(context.Background(), "select get_comments($1)", path).Scan(&comments); err != nil {
+	if err := Postgres.Conn.QueryRow(context.Background(),
+		"select get_comments($1)", path).Scan(&comments); err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
@@ -38,12 +40,14 @@ func LikeHandler(ctx *fasthttp.RequestCtx) {
 	path := functools.ByteSliceToString(ctx.QueryArgs().Peek("path"))
 	option := functools.ByteSliceToString(ctx.QueryArgs().Peek("opt"))
 	if option == setLike {
-		if _, err := Postgres.Conn.Exec(context.Background(), "insert into likes(path,auth_id) values($1,$2)", path, authId); err != nil {
+		if _, err := Postgres.Conn.Exec(context.Background(),
+			"insert into likes(path,auth_id) values($1,$2)", path, authId); err != nil {
 			fmt.Println("Error:", err)
 			return
 		}
 	} else if option == revokeLike {
-		if _, err := Postgres.Conn.Exec(context.Background(), "delete from likes(path,auth_id) values($1,$2)", path, authId); err != nil {
+		if _, err := Postgres.Conn.Exec(context.Background(),
+			"delete from likes(path,auth_id) values($1,$2)", path, authId); err != nil {
 			fmt.Println("Error:", err)
 			return
 		}
@@ -55,7 +59,8 @@ func AddCommentHandler(ctx *fasthttp.RequestCtx) {
 	path := functools.ByteSliceToString(ctx.QueryArgs().Peek("path"))
 	authId := "1"
 	message := "Hello world"
-	if _, err := Postgres.Conn.Exec(context.Background(), "insert into objects (auth_id, text, path) values ($1, $2, $3);", authId, message, path); err != nil {
+	if _, err := Postgres.Conn.Exec(context.Background(),
+		"insert into objects (auth_id, text, path) values ($1, $2, $3);", authId, message, path); err != nil {
 		fmt.Println("Error:", err)
 		return
 	}

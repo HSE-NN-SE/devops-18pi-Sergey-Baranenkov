@@ -27,9 +27,8 @@ func init() {
 }
 
 func Initializer() error {
-	if err := Postgres.CreateConnection("host=postgres user=me password=12345 dbname=my_coursework_db"); err != nil {
-		return err
-	}
+	if err := Postgres.CreateConnection("host=postgres user=me password=12345 dbname=my_coursework_db");
+	err != nil { return err }
 
 	if err := Postgres.InitDatabasesIfNotExist(); err != nil {
 		return err
