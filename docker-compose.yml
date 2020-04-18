@@ -4,7 +4,7 @@ version: "3"
 services:
         app:
                 build: .
-                image: $DOCKER_USERNAME/go_react_socialnetwork:ver_${GITHUB_RUN_NUMBER}
+                image: ${DOCKER_USERNAME}/go_react_socialnetwork:ver_${GITHUB_RUN_NUMBER}
                 command: ./app
                 restart: always
                 ports:
@@ -18,9 +18,9 @@ services:
                 volumes:
                         - "./databases/pg:/var/lib/postgresql/data"
                 environment:
-                        POSTGRES_USER: $PGUSER
-                        POSTGRES_PASSWORD: $PGPASSWORD
-                        POSTGRES_DB: $PGDBNAME
+                        POSTGRES_USER: ${PGUSER}
+                        POSTGRES_PASSWORD: ${PGPASSWORD}
+                        POSTGRES_DB: ${PGDBNAME}
                 expose:
                         - "5432"
         redis:
