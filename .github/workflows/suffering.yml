@@ -45,4 +45,4 @@ jobs:
       with:
         GOLINT: on
         GOLINTPATH: pkg/controller
-        MISSPELL: off
+        MISSPELL: on
