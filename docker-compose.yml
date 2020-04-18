@@ -4,7 +4,7 @@ version: "3"
 services:
         app:
                 build: .
-                image: $PATH_TO_DOCKERHUB/go_react_socialnetwork:ver_$PATCH_VERSION
+                image: $PATH_TO_DOCKERHUB/go_react_socialnetwork:ver_$GITHUB_RUN_NUMBER
                 command: ./app
                 restart: always
                 ports:
