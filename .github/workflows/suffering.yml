@@ -37,10 +37,10 @@ jobs:
             docker push ${{secrets.DOCKER_USERNAME}}/go_react_socialnetwork:ver_$GITHUB_RUN_NUMBER
 
   code_style_checks:
-    name: Go Checks
+    name: go codestyle checks
     runs-on: ubuntu-latest
     steps:
-    - name: test 
+    - name: clone repo 
       uses: actions/checkout@v2
       
     - name: go1.12 linter
