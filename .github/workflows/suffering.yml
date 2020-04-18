@@ -40,6 +40,9 @@ jobs:
     name: Go Checks
     runs-on: ubuntu-latest
     steps:
+    - name: test 
+      uses: actions/checkout@v2
+      
     - name: go1.12 linter
       uses: shoukoo/golang-pipeline/go1.12/linter@master
       with:
