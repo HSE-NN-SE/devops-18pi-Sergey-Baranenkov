@@ -46,3 +46,5 @@ jobs:
         GOLINT: on
         GOLINTPATH: main
         MISSPELL: off
+    env:
+      PROJECT_PATH: "./backend"
