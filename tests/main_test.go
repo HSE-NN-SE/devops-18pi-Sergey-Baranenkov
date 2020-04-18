@@ -43,7 +43,7 @@ func TestCorrectRegistration(t *testing.T){
 		t.Error(err.Error())
 	}
 	status_code := resp.StatusCode
-	
+
 	if status_code != http.StatusOK{
 		t.Errorf("Status is not 200, but %d", status_code)
 	}

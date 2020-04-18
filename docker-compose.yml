@@ -4,6 +4,7 @@ version: "3"
 services:
         app:
                 build: .
+                image: social-network:latest
                 command: ./app
                 restart: always
                 ports:
