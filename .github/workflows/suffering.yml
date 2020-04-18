@@ -22,7 +22,8 @@ jobs:
         PGUSER: ${{secrets.PGUSER}}
         PGPASSWORD: ${{secrets.PGPASSWORD}}
         PGDBNAME: ${{secrets.PGDBNAME}}
-        GITHUB_RUN_NUMBER: $GITHUB_RUN_NUMBER
+        VERSION: $GITHUB_RUN_NUMBER
+  
       run: docker-compose up -d
       
     - name: check running containers
