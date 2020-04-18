@@ -4,7 +4,7 @@ version: "3"
 services:
         app:
                 build: .
-                image: araxal/go_react_socialnetwork:test
+                image: ${PATH}/go_react_socialnetwork:ver_${VER}
                 command: ./app
                 restart: always
                 ports:
@@ -18,9 +18,9 @@ services:
                 volumes:
                         - "./databases/pg:/var/lib/postgresql/data"
                 environment:
-                        POSTGRES_USER: me
-                        POSTGRES_PASSWORD: 12345
-                        POSTGRES_DB: my_coursework_db
+                        POSTGRES_USER: ${PG_USER}
+                        POSTGRES_PASSWORD: ${PG_PASS}
+                        POSTGRES_DB: ${PG_DBNAME}
                 expose:
                         - "5432"
         redis:
