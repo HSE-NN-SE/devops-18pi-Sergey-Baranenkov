@@ -22,3 +22,7 @@ jobs:
       
     - name: watch running container
       run: docker ps -a
+      
+    - name: logs
+      run: docker-compose logs -f
+      
