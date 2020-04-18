@@ -15,8 +15,7 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    # Runs a single command using the runners shell
+    
     - name: launch_server
       run: docker-compose up -d
       
@@ -25,3 +24,8 @@ jobs:
     
     - name: run tests
       run: sudo docker build -t test tests/. && sudo docker run --network host test
+    
+    - name: push to docker
+      run: | 
+            docker login --username ${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+            docker push araxal/go_react_socialnetwork:latest
