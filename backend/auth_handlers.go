@@ -108,7 +108,7 @@ func RegistrationHandler(ctx *fasthttp.RequestCtx){
 		fmt.Println(err)
 	}else{
 		successfulAuth(ctx,strconv.Itoa(userId))
-		ctx.Redirect("/профиль",200)
+		ctx.Redirect("/posts",200)
 	}
 }
 
