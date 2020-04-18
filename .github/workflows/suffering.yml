@@ -18,7 +18,7 @@ jobs:
     
     - name: launch_server
       
-      run: docker-compose up -d
+      run: PATH=${{ secrets.DOCKER_USERNAME }} VER=$GITHUB_RUN_NUMBER PG_USER=${{ secrets.PGUSER }} PG_PASS=${{ secrets.PGPASSWORD }} PG_DBNAME=${{ secrets.PGDBNAME }}  docker-compose up -d
       
     - name: check running containers
       run: docker ps -a
