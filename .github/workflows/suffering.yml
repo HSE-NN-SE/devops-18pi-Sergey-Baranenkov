@@ -20,9 +20,8 @@ jobs:
     - name: launch_server
       run: docker-compose up -d
       
-    - name: watch running container
+    - name: check running containers
       run: docker ps -a
-      
-    - name: logs
-      run: docker-compose logs -f
-      
+    
+    - name: run tests
+      run: sudo docker build -t test tests/. && sudo docker run --network host test
