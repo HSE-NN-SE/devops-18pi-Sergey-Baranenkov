@@ -14,7 +14,7 @@ func GetPostsHandler(ctx *fasthttp.RequestCtx) {
 		fmt.Println(err)
 		return
 	}
-	ctx.WriteString(functools.ByteSliceToString(posts))
+	_, _ = ctx.WriteString(functools.ByteSliceToString(posts))
 }
 
 func CommentsTestHandler(ctx *fasthttp.RequestCtx) {
@@ -27,7 +27,7 @@ func CommentsTestHandler(ctx *fasthttp.RequestCtx) {
 		fmt.Println("Error:", err)
 		return
 	}
-	ctx.WriteString(functools.ByteSliceToString(comments))
+	_, _ = ctx.WriteString(functools.ByteSliceToString(comments))
 }
 
 var revokeLike = "0"
