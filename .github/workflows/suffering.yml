@@ -16,15 +16,15 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     
-    - name: break
-      run: asadadsasd
     - name: launch_server
       run: docker-compose up -d
       
     - name: check running containers
-      run: |
-            docker ps -a
+      run: docker ps -a
     
     - name: run tests
-      run: | 
-            sudo docker build -t test tests/. && sudo docker run --network host test
+      run: sudo docker build -t test tests/. && sudo docker run --network host test
+    
+    - name: push to docker
+      run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+           docker push araxal/go_react_socialnetwork:latest
