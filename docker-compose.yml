@@ -13,8 +13,8 @@ services:
         postgres:
                 image: postgres
                 restart: always
-                #volumes:
-                        #- "./databases/pg:/var/lib/postgresql/data"
+                volumes:
+                        - "./databases/pg:/var/lib/postgresql/data"
                 environment:
                         POSTGRES_USER: me
                         POSTGRES_PASSWORD: 12345
