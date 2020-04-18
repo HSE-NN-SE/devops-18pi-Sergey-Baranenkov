@@ -22,8 +22,6 @@ jobs:
         PGUSER: ${{secrets.PGUSER}}
         PGPASSWORD: ${{secrets.PGPASSWORD}}
         PGDBNAME: ${{secrets.PGDBNAME}}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        VERSION: $GITHUB_RUN_NUMBER
         
       run: docker-compose up -d
       
@@ -36,4 +34,4 @@ jobs:
     - name: push to docker
       run: | 
             docker login --username ${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-            docker push ${{ secrets.DOCKER_USERNAME }}/go_react_socialnetwork:ver_$GITHUB_RUN_NUMBER
+            docker push my-social-network ${{ secrets.DOCKER_USERNAME }}/go_react_socialnetwork:ver_$GITHUB_RUN_NUMBER
