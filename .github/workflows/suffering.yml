@@ -17,6 +17,14 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: launch_server
+      
+      env:
+        PGUSER: ${{secrets.PGUSER}}
+        PGPASSWORD: ${{secrets.PGPASSWORD}}
+        PGDBNAME: ${{secrets.PGDBNAME}}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        VERSION: $GITHUB_RUN_NUMBER
+        
       run: docker-compose up -d
       
     - name: check running containers
@@ -28,4 +36,4 @@ jobs:
     - name: push to docker
       run: | 
             docker login --username ${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-            docker push araxal/go_react_socialnetwork:latest
+            docker push ${{ secrets.DOCKER_USERNAME }}/go_react_socialnetwork:latest
