@@ -23,7 +23,7 @@ jobs:
         PGPASSWORD: ${{secrets.PGPASSWORD}}
         PGDBNAME: ${{secrets.PGDBNAME}}
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        VERSION: $GITHUB_RUN_NUMBER
+        VERSION: ${{$GITHUB_RUN_NUMBER}}
         
       run: docker-compose up -d
       
