@@ -18,9 +18,9 @@ services:
                 volumes:
                         - "./databases/pg:/var/lib/postgresql/data"
                 environment:
-                        POSTGRES_USER: ${PGUSER}
-                        POSTGRES_PASSWORD: ${PGPASSWORD}
-                        POSTGRES_DB: ${PGDBNAME}
+                        POSTGRES_USER: me
+                        POSTGRES_PASSWORD: 12345
+                        POSTGRES_DB: my_coursework_db
                 expose:
                         - "5432"
         redis:
