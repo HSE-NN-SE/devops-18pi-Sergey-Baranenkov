@@ -35,4 +35,4 @@ jobs:
     - name: push to docker
       run: | 
             docker login --username ${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-            docker push my-social-network ${{ secrets.DOCKER_USERNAME }}/go_react_socialnetwork:test
+            docker push ${{ secrets.DOCKER_USERNAME }}/go_react_socialnetwork:test
