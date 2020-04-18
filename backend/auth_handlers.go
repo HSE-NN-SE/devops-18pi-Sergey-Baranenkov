@@ -58,7 +58,7 @@ func loginHandler(ctx *fasthttp.RequestCtx) {
 	var firstName string
 	var lastName string
 
-	Postgres.Conn.QueryRow(context.Background(),
+	_ = Postgres.Conn.QueryRow(context.Background(),
 		"select user_id, first_name, last_name, token from users where email = $1 limit 1", obj.Email).Scan(
 		&userId,
 		&firstName,
