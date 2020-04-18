@@ -87,7 +87,9 @@ func makeAvatarPath(width uint, height uint, file *multipart.FileHeader) (string
 	}
 
 	decodedJpeg, err := jpeg.Decode(ff)
-
+	if err != nil{
+		return "", err
+	}
 	avatar100xPic := resize.Resize(width, height, decodedJpeg, resize.Lanczos3)
 
 	w, err := os.Create(sb.String())
