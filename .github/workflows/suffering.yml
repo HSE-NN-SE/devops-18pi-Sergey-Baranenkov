@@ -20,5 +20,5 @@ jobs:
     - name: launch_server
       run: docker-compose up
       
-    - name: watch runninn container
+    - name: watch running container
       run: docker ps
