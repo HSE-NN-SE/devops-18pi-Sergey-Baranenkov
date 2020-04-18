@@ -21,4 +21,4 @@ jobs:
       run: docker-compose up -d
       
     - name: watch running container
-      run: docker ps
+      run: docker ps -a
