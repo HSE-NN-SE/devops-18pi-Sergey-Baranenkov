@@ -17,29 +17,29 @@ var (
 	ServePort string
 )
 
-func init(){
+func init() {
 	Postgres = postgres.RegistrationConn{}
 	Redis = redis.NewClient(&redis.Options{Addr: "redis:6379"})
 	Salt = []byte("Ilya Bychkov")
-	Router  = router.New()
+	Router = router.New()
 	Validator = validator.New()
 	ServePort = "8090"
 }
 
-func Initializer() error{
-	if err:= Postgres.CreateConnection("host=postgres user=me password=12345 dbname=my_coursework_db");err!=nil{
+func Initializer() error {
+	if err := Postgres.CreateConnection("host=postgres user=me password=12345 dbname=my_coursework_db"); err != nil {
 		return err
 	}
 
-	if err := Postgres.InitDatabasesIfNotExist(); err!=nil{
+	if err := Postgres.InitDatabasesIfNotExist(); err != nil {
 		return err
 	}
 
-	if err := Redis.Ping().Err(); err!=nil{
+	if err := Redis.Ping().Err(); err != nil {
 		return err
 	}
 
-	if err := Validator.RegisterValidation("sex", validators.ValidateSex); err!=nil{
+	if err := Validator.RegisterValidation("sex", validators.ValidateSex); err != nil {
 		return err
 	}
 

@@ -8,7 +8,7 @@ import (
 func StringToPath(str string, div int)(string, error){
 	strLen := len(str)
 	if strLen % div != 0 {
-		return "", errors.New("String should be divisible by div value !")
+		return "", errors.New("string should be divisible by div value")
 	}
 
 	sb:= strings.Builder{}
