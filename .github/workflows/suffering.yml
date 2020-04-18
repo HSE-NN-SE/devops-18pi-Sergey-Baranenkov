@@ -44,5 +44,5 @@ jobs:
       uses: shoukoo/golang-pipeline/go1.12/linter@master
       with:
         GOLINT: on
-        GOLINTPATH: backend
+        GOLINTPATH: main
         MISSPELL: off
