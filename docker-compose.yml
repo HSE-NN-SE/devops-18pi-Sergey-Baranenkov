@@ -4,7 +4,7 @@ version: "3"
 services:
         app:
                 build: .
-                image: social-network:latest
+                image: araxal/go_react_socialnetwork:latest
                 command: ./app
                 restart: always
                 ports:
