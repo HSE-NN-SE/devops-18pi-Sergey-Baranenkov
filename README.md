@@ -1,3 +1,5 @@
+![Social_network_CI](https://github.com/HSE-NN-SE/devops-18pi-Sergey-Baranenkov/workflows/Social_network_CI/badge.svg)
+
 Социальная сеть, сверстанная по макету https://themeforest.net/item/olympus-html-social-network-toolkit/19755363
 
 DONE:
