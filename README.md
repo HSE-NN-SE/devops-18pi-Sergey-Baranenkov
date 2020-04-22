@@ -2,6 +2,8 @@
 
 Социальная сеть, сверстанная по макету https://themeforest.net/item/olympus-html-social-network-toolkit/19755363
 
+Dockerhub : https://hub.docker.com/repository/docker/araxal/go_react_socialnetwork/
+
 DONE:
 
      - страница register/login (осталось доделать валидацию полей)
