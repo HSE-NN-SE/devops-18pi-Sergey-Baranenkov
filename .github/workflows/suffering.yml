@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
         
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+
     - uses: actions/checkout@v2
       
     - name: launch_server
@@ -29,7 +29,7 @@ jobs:
     - name: push to docker
       run: | 
             docker login --username ${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-            docker push ${{secrets.DOCKER_USERNAME}}/go_react_socialnetwork:ver_$GITHUB_RUN_NUMBER
+            docker push ${{secrets.DOCKER_USERNAME}}/go_react_socialnetwork:ver_0.$GITHUB_RUN_NUMBER
 
   code_style_checks:
     name: go codestyle checks
