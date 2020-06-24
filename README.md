@@ -35,4 +35,4 @@ DONE:
 ![auth_page_alt](https://github.com/HSE-NN-SE/devops-18pi-Sergey-Baranenkov/blob/master/Picture1.png)
 
 Страница профиля
-![profile_page_alt](https://github.com/HSE-NN-SE/devops-18pi-Sergey-Baranenkov/blob/master/Picture2.png)
+![profile_page_alt](https://github.com/HSE-NN-SE/devops-18pi-Sergey-Baranenkov/blob/master/Picture3.png)
